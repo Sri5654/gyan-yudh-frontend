@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Trophy, Medal, Crown, Star, Filter, Calendar, Code } from 'lucide-react';
-import axios from 'axios';
 import './Leaderboard.css';
 
 const Leaderboard = () => {
@@ -9,34 +8,15 @@ const Leaderboard = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
-  const [userTeamId, setUserTeamId] = useState(null);
+  const [userTeamId, setUserTeamId] = useState('2'); // Mock user team ID
 
   useEffect(() => {
-    fetchLeaderboardData();
-    fetchUserProfile();
-  }, [activeFilter]);
-
-  const fetchUserProfile = async () => {
-    try {
-      const response = await axios.get('/api/users/profile');
-      setUserTeamId(response.data.teamId._id);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  };
-
-  const fetchLeaderboardData = async () => {
-    try {
-      const response = await axios.get(`/api/leaderboard?filter=${activeFilter}`);
-      setTeams(response.data);
-    } catch (error) {
-      console.error('Error fetching leaderboard:', error);
-      // Mock data for demonstration
+    // Simulate loading
+    setTimeout(() => {
       setTeams(mockLeaderboardData);
-    } finally {
       setLoading(false);
-    }
-  };
+    }, 500);
+  }, [activeFilter]);
 
   const mockLeaderboardData = [
     {
