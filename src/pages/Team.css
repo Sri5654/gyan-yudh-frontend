@@ -1,0 +1,363 @@
+.team-page {
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
+}
+
+.team-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading, .error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 1.2rem;
+  color: #00d2ff;
+}
+
+/* Team Header */
+.team-header {
+  background: rgba(26, 26, 46, 0.8);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px solid #00d2ff;
+  box-shadow: 0 10px 40px rgba(0, 210, 255, 0.2);
+}
+
+.team-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.team-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  border: 3px solid #00d2ff;
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+}
+
+.team-info h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #00d2ff, #39ff14);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.team-motto {
+  font-size: 1.1rem;
+  color: #ccc;
+  font-style: italic;
+}
+
+.team-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(15, 15, 35, 0.6);
+  border-radius: 16px;
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.rank-card { border-left: 4px solid #ffc107; }
+.xp-card { border-left: 4px solid #39ff14; }
+.streak-card { border-left: 4px solid #ff6b35; }
+.projects-card { border-left: 4px solid #00d2ff; }
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  color: #00d2ff;
+}
+
+.rank-card .stat-icon { color: #ffc107; }
+.xp-card .stat-icon { color: #39ff14; }
+.streak-card .stat-icon { color: #ff6b35; }
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Members Section */
+.members-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.member-card {
+  background: rgba(26, 26, 46, 0.8);
+  border-radius: 20px;
+  padding: 2rem;
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #00d2ff, #39ff14);
+}
+
+.member-card:hover {
+  transform: translateY(-10px);
+  border-color: #00d2ff;
+  box-shadow: 0 15px 40px rgba(0, 210, 255, 0.2);
+}
+
+.member-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.member-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #00d2ff;
+}
+
+.member-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(15, 15, 35, 0.8);
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.status-text {
+  color: #ccc;
+}
+
+.member-info {
+  margin-bottom: 1.5rem;
+}
+
+.member-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.member-role {
+  color: #00d2ff;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.member-stats {
+  margin-bottom: 1rem;
+}
+
+.member-xp {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #39ff14;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.contribution-bar {
+  margin-bottom: 0.5rem;
+}
+
+.contribution-label {
+  font-size: 0.8rem;
+  color: #ccc;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(15, 15, 35, 0.8);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d2ff, #39ff14);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.contribution-percent {
+  font-size: 0.8rem;
+  color: #00d2ff;
+  font-weight: 600;
+}
+
+.member-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.challenge-btn {
+  background: linear-gradient(45deg, #ff6b35, #ff8c42);
+  color: white;
+}
+
+.challenge-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+}
+
+.message-btn {
+  background: transparent;
+  border: 2px solid #00d2ff;
+  color: #00d2ff;
+}
+
+.message-btn:hover {
+  background: #00d2ff;
+  color: white;
+}
+
+/* Achievements Section */
+.achievements-section {
+  margin-bottom: 2rem;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.achievement-card {
+  background: rgba(26, 26, 46, 0.8);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+}
+
+.achievement-card.earned {
+  border-color: #39ff14;
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+}
+
+.achievement-card.earned:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(57, 255, 20, 0.3);
+}
+
+.achievement-card.locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.achievement-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.achievement-card h4 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.achievement-card p {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .team-header {
+    padding: 1.5rem;
+  }
+  
+  .team-logo-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .team-info h1 {
+    font-size: 2rem;
+  }
+  
+  .team-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .achievements-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}

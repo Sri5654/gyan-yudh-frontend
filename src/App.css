@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  color: #eee;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Fira Code', monospace;
+}
+
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00d2ff;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0099cc;
+}
+
+/* Utility Classes */
+.text-primary { color: #00d2ff; }
+.text-secondary { color: #39ff14; }
+.text-accent { color: #ff6b35; }
+.bg-primary { background-color: #00d2ff; }
+.bg-secondary { background-color: #39ff14; }
+.bg-dark { background-color: #1a1a2e; }
+.bg-darker { background-color: #0f0f23; }
+
+/* Animations */
+@keyframes glow {
+  0% { box-shadow: 0 0 5px #00d2ff; }
+  50% { box-shadow: 0 0 20px #00d2ff, 0 0 30px #00d2ff; }
+  100% { box-shadow: 0 0 5px #00d2ff; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.glow { animation: glow 2s infinite; }
+.pulse { animation: pulse 2s infinite; }
