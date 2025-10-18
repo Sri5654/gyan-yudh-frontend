@@ -1,14 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-
-// Set API base URL based on environment
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-
-// Configure axios
-if (API_BASE_URL) {
-  axios.defaults.baseURL = API_BASE_URL;
-  console.log('🔗 API connected to:', API_BASE_URL);
-}
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
@@ -21,97 +11,90 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
-  const logout = useCallback(() => {
+  // Mock user data - no API calls
+  const mockUser = {
+    _id: 'demo-user-123',
+    name: 'Demo Student',
+    email: 'demo@btech.edu',
+    teamId: { 
+      _id: 'team-123', 
+      name: 'The Segfault Squad' 
+    },
+    xp: 1250,
+    dailyGoal: 100,
+    dailyProgress: 75,
+    avatar: 'https://via.placeholder.com/100x100/1a1a2e/00d2ff?text=DS',
+    powerUps: [
+      { name: 'Double XP', active: true, expiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000) },
+      { name: 'Streak Shield', active: true, expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) }
+    ]
+  };
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      if (token) {
+        setCurrentUser(mockUser);
+        console.log('✅ Demo user loaded:', mockUser.name);
+      }
+      setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [token]);
+
+  const logout = () => {
     localStorage.removeItem('token');
     setToken(null);
     setCurrentUser(null);
-    delete axios.defaults.headers.common['x-auth-token'];
-  }, []);
-
-  const fetchUserProfile = useCallback(async () => {
-    try {
-      console.log('📡 Fetching user profile...');
-      const response = await axios.get('/api/users/profile');
-      setCurrentUser(response.data);
-      console.log('✅ User profile loaded:', response.data.name);
-    } catch (error) {
-      console.error('❌ Error fetching user profile:', error);
-      // Don't logout on API errors during initial load
-      if (error.response?.status === 401) {
-        logout();
-      } else {
-        // Use mock data if API is not available
-        setCurrentUser({
-          _id: 'demo-user',
-          name: 'Demo User',
-          email: 'demo@example.com',
-          teamId: { _id: '1', name: 'Demo Team' },
-          xp: 1250,
-          dailyGoal: 100,
-          dailyProgress: 75,
-          avatar: 'https://via.placeholder.com/100x100/1a1a2e/00d2ff?text=DU'
-        });
-        console.log('🔄 Using demo data due to API error');
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, [logout]);
-
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common['x-auth-token'] = token;
-      fetchUserProfile();
-    } else {
-      setLoading(false);
-    }
-  }, [token, fetchUserProfile]);
+    console.log('👋 User logged out');
+  };
 
   const login = async (email, password) => {
-    try {
-      console.log('🔐 Attempting login...');
-      const response = await axios.post('/api/auth/login', { email, password });
-      const { token, user } = response.data;
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    if (email && password) {
+      const mockToken = 'demo-jwt-token-' + Date.now();
+      localStorage.setItem('token', mockToken);
+      setToken(mockToken);
+      setCurrentUser({
+        ...mockUser,
+        email: email,
+        name: email.split('@')[0] || 'Demo Student'
+      });
       
-      localStorage.setItem('token', token);
-      setToken(token);
-      axios.defaults.headers.common['x-auth-token'] = token;
-      setCurrentUser(user);
-      
-      console.log('✅ Login successful:', user.name);
+      console.log('✅ Demo login successful');
       return { success: true };
-    } catch (error) {
-      console.error('❌ Login failed:', error);
+    } else {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Login failed' 
+        error: 'Please enter both email and password' 
       };
     }
   };
 
   const register = async (name, email, password, teamName) => {
-    try {
-      console.log('📝 Attempting registration...');
-      const response = await axios.post('/api/auth/register', {
-        name,
-        email,
-        password,
-        teamName
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    if (name && email && password && teamName) {
+      const mockToken = 'demo-jwt-token-' + Date.now();
+      localStorage.setItem('token', mockToken);
+      setToken(mockToken);
+      setCurrentUser({
+        ...mockUser,
+        name: name,
+        email: email,
+        teamId: { _id: 'team-new', name: teamName }
       });
-      const { token, user } = response.data;
       
-      localStorage.setItem('token', token);
-      setToken(token);
-      axios.defaults.headers.common['x-auth-token'] = token;
-      setCurrentUser(user);
-      
-      console.log('✅ Registration successful:', user.name);
+      console.log('✅ Demo registration successful');
       return { success: true };
-    } catch (error) {
-      console.error('❌ Registration failed:', error);
+    } else {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Registration failed' 
+        error: 'Please fill in all fields' 
       };
     }
   };

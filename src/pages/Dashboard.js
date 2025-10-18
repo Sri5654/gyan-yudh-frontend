@@ -1,19 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Clock, Code, TreePine, BarChart3, Zap, Star, Trophy } from 'lucide-react';
-import axios from 'axios';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
-  const [userProfile, setUserProfile] = useState(null);
-  const [topTeams, setTopTeams] = useState([]);
-  const [dailyQuests, setDailyQuests] = useState([]);
   const [timeLeft, setTimeLeft] = useState({ days: 3, hours: 14, minutes: 27 });
 
+  // Mock data - no API calls
+  const mockTopTeams = [
+    { _id: '1', name: 'Code Crusaders', weeklyXP: 1200 },
+    { _id: '2', name: 'The Segfault Squad', weeklyXP: 980 },
+    { _id: '3', name: 'Binary Beasts', weeklyXP: 875 },
+    { _id: '4', name: 'Null Pointers', weeklyXP: 756 },
+    { _id: '5', name: 'Stack Overflow', weeklyXP: 689 }
+  ];
+
+  const mockDailyQuests = [
+    {
+      _id: '1',
+      title: 'Mastering Pointers in C',
+      subject: 'C Programming',
+      difficulty: 'Medium',
+      xpReward: 75,
+      type: 'coding'
+    },
+    {
+      _id: '2',
+      title: 'Implementing a Binary Search Tree',
+      subject: 'Data Structures',
+      difficulty: 'Hard',
+      xpReward: 100,
+      type: 'coding'
+    },
+    {
+      _id: '3',
+      title: 'Cleaning the Titanic Dataset',
+      subject: 'Data Science',
+      difficulty: 'Easy',
+      xpReward: 120,
+      type: 'coding'
+    }
+  ];
+
   useEffect(() => {
-    fetchDashboardData();
-    
     // Update timer every minute
     const timer = setInterval(() => {
       setTimeLeft(prev => {
@@ -31,29 +61,12 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const fetchDashboardData = async () => {
-    try {
-      const [profileRes, teamsRes, questsRes] = await Promise.all([
-        axios.get('/api/users/profile'),
-        axios.get('/api/teams/top/5'),
-        axios.get('/api/quests/daily')
-      ]);
-
-      setUserProfile(profileRes.data);
-      setTopTeams(teamsRes.data);
-      setDailyQuests(questsRes.data);
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-    }
+  const handleStartQuest = (questId) => {
+    alert(`Starting quest ${questId}! This would navigate to the quest page.`);
   };
 
-  const handleStartQuest = async (questId) => {
-    // This would typically navigate to the quest page
-    console.log('Starting quest:', questId);
-  };
-
-  const progressPercentage = userProfile ? 
-    Math.min((userProfile.dailyProgress / userProfile.dailyGoal) * 100, 100) : 0;
+  const progressPercentage = currentUser ? 
+    Math.min((currentUser.dailyProgress / currentUser.dailyGoal) * 100, 100) : 0;
 
   const mockActivityFeed = [
     { user: 'Priya', action: 'solved the "Two Sum" problem', xp: 50, team: 'The Segfault Squad', time: '2 min ago' },
@@ -62,7 +75,7 @@ const Dashboard = () => {
     { user: 'Vikram', action: 'aced the "OS Concepts" quiz', xp: 60, team: 'Null Pointers', time: '12 min ago' }
   ];
 
-  if (!userProfile) {
+  if (!currentUser) {
     return <div className="loading">Loading battleground...</div>;
   }
 
@@ -73,13 +86,13 @@ const Dashboard = () => {
         <div className="left-column">
           <div className="profile-card">
             <div className="profile-header">
-              <img src={userProfile.avatar} alt="Avatar" className="avatar" />
+              <img src={currentUser.avatar} alt="Avatar" className="avatar" />
               <div className="profile-info">
-                <h3>{userProfile.name}</h3>
-                <p className="team-name text-secondary">{userProfile.teamId?.name || 'The Segfault Squad'}</p>
+                <h3>{currentUser.name}</h3>
+                <p className="team-name text-secondary">{currentUser.teamId?.name}</p>
                 <div className="xp-display">
                   <Star className="xp-icon" />
-                  <span>{userProfile.xp} XP</span>
+                  <span>{currentUser.xp} XP</span>
                 </div>
               </div>
             </div>
@@ -110,7 +123,7 @@ const Dashboard = () => {
                 </svg>
                 <div className="progress-text">
                   <span className="progress-value">{Math.round(progressPercentage)}%</span>
-                  <span className="progress-label">{userProfile.dailyProgress}/{userProfile.dailyGoal} XP</span>
+                  <span className="progress-label">{currentUser.dailyProgress}/{currentUser.dailyGoal} XP</span>
                 </div>
               </div>
             </div>
@@ -118,14 +131,12 @@ const Dashboard = () => {
             <div className="power-ups">
               <h4>Active Power-Ups</h4>
               <div className="power-up-list">
-                <div className="power-up">
-                  <Zap className="power-up-icon" />
-                  <span>Double XP (2h left)</span>
-                </div>
-                <div className="power-up">
-                  <Trophy className="power-up-icon" />
-                  <span>Streak Shield (Active)</span>
-                </div>
+                {currentUser.powerUps?.map((powerUp, index) => (
+                  <div key={index} className="power-up">
+                    <Zap className="power-up-icon" />
+                    <span>{powerUp.name} (Active)</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -144,8 +155,8 @@ const Dashboard = () => {
           <div className="team-rankings">
             <h3>Top 5 Teams This Week</h3>
             <div className="rankings-chart">
-              {topTeams.map((team, index) => (
-                <div key={team._id} className={`team-bar ${index === 0 ? 'highlighted' : ''}`}>
+              {mockTopTeams.map((team, index) => (
+                <div key={team._id} className={`team-bar ${team.name === currentUser.teamId?.name ? 'highlighted' : ''}`}>
                   <div className="team-info">
                     <span className="rank">#{index + 1}</span>
                     <span className="team-name">{team.name}</span>
@@ -153,7 +164,7 @@ const Dashboard = () => {
                   <div className="xp-bar">
                     <div 
                       className="xp-fill" 
-                      style={{ width: `${(team.weeklyXP / (topTeams[0]?.weeklyXP || 1)) * 100}%` }}
+                      style={{ width: `${(team.weeklyXP / mockTopTeams[0].weeklyXP) * 100}%` }}
                     ></div>
                     <span className="xp-value">{team.weeklyXP} XP</span>
                   </div>
@@ -165,7 +176,7 @@ const Dashboard = () => {
           <div className="daily-quests">
             <h3>Today's Quests</h3>
             <div className="quest-list">
-              {dailyQuests.map((quest) => (
+              {mockDailyQuests.map((quest) => (
                 <div key={quest._id} className="quest-card">
                   <div className="quest-icon">
                     {quest.type === 'coding' && <Code />}
