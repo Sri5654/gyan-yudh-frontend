@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Clock, Code, TreePine, BarChart3, Zap, Star, Trophy } from 'lucide-react';
 import './Dashboard.css';

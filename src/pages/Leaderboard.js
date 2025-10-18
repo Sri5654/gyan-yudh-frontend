@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Trophy, Medal, Crown, Star, Filter, Calendar, Code } from 'lucide-react';
 import axios from 'axios';

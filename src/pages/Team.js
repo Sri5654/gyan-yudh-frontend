@@ -1,30 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useState, useEffect } from 'react';
 import { Trophy, Users, Flame, Star, Circle } from 'lucide-react';
-import axios from 'axios';
 import './Team.css';
 
 const Team = () => {
-  const { currentUser } = useAuth();
-  const [teamData, setTeamData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchTeamData();
+    // Simulate loading
+    setTimeout(() => setLoading(false), 500);
   }, []);
-
-  const fetchTeamData = async () => {
-    try {
-      const userProfile = await axios.get('/api/users/profile');
-      const teamId = userProfile.data.teamId._id;
-      const teamResponse = await axios.get(`/api/teams/${teamId}`);
-      setTeamData(teamResponse.data);
-    } catch (error) {
-      console.error('Error fetching team data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -43,12 +27,8 @@ const Team = () => {
     return <div className="loading">Loading your squad...</div>;
   }
 
-  if (!teamData) {
-    return <div className="error">Failed to load team data</div>;
-  }
-
-  // Mock data for demonstration
-  const mockTeamData = {
+  // Mock team data
+  const team = {
     name: "The Segfault Squad",
     logo: "https://via.placeholder.com/120x120/00d2ff/ffffff?text=TSS",
     rank: 2,
@@ -90,8 +70,6 @@ const Team = () => {
       }
     ]
   };
-
-  const team = { ...teamData, ...mockTeamData };
 
   return (
     <div className="team-page">

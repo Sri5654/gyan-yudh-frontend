@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Terminal, Brain, GitBranch, Bug, Flame, BookOpen, Users, Trophy } from 'lucide-react';
 import './EarnXP.css';

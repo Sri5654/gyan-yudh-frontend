@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Play, Clock, Trophy, Sword, Code, Users } from 'lucide-react';
 import './CodingArena.css';
 
